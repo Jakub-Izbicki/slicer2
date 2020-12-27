@@ -9,6 +9,6 @@ import SceneContainer from "@/components/scene/SceneContainer.vue"
 @Component({
   components: {SceneContainer}
 })
-export default class Scene2 extends Vue {
+export default class Main extends Vue {
 }
 </script>

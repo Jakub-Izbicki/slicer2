@@ -6,10 +6,10 @@
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue} from 'vue-property-decorator';
+import {Component, Vue} from 'vue-property-decorator';
 import * as THREE from "three";
 
-import {Camera, Mesh, NoBlending, Scene, WebGLRenderer} from "three";
+import {Camera, Scene, WebGLRenderer} from "three";
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import {CSS3DObject, CSS3DRenderer} from "three/examples/jsm/renderers/CSS3DRenderer";
 import Stats from "three/examples/jsm/libs/stats.module";
@@ -123,6 +123,8 @@ export default class SceneEmpty1 extends Vue {
     const linesGeometry = new THREE.BufferGeometry().setFromPoints(points);
     scene.add(new THREE.Line(linesGeometry, lineBasicMaterial));
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
     this.stats = new Stats();
     this.stats.showPanel(0);
     webGlSceneWindow.appendChild(this.stats.dom);
