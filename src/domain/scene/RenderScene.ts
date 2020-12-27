@@ -22,6 +22,8 @@ export default class RenderScene {
 
     private static readonly POLAR_ANGLE = Math.PI / 2;
 
+    private static readonly CAMERA_START_Z = 200;
+
     private static readonly FPS_COUNTER = 0;
 
     private readonly START_ERROR = "Destroyed RenderScene cannot be reused!";
@@ -51,27 +53,46 @@ export default class RenderScene {
             throw this.START_ERROR;
         }
 
-        // set on window resize event,
         this.container.appendChild(this.cssRenderer.domElement);
-        // append stats, etc.. to parent container
+        this.container.appendChild(this.stats.dom);
+        this.addOnWindowResize();
         this.animate();
     }
 
     public destroy(): void {
         this.destroyed = true;
 
-        // dispose of all objects?, materials?, meshes? etc..
-        // dispose of scene? renderer?
+        // todo: stop requested animation frame
+        // todo: dispose of all objects?, materials?, meshes? etc..
+        // todo: dispose of scene? renderer?
         console.error("destroy() not yet implemented");
     }
 
     private animate(): void {
-        requestAnimationFrame(this.animate);
+        // todo: stop request animation frame when destroying scene
+        const doAnimate = () => {
+            requestAnimationFrame(doAnimate);
 
-        // include stats
-        this.stats.begin();
-        this.cssRenderer.render(this.scene, this.camera);
-        this.stats.end();
+            this.stats.begin();
+            this.cssRenderer.render(this.scene, this.camera);
+            this.stats.end();
+        }
+
+        doAnimate();
+    }
+
+    private addOnWindowResize(): void {
+        // todo: add event handle so it can be removed when destroying scene later?
+        window.addEventListener('resize', this.onWindowResize, false);
+    }
+
+    // todo: implement
+    private onWindowResize(): void {
+        // @ts-ignore
+        // this.camera.aspect = this.container.offsetWidth / this.container.offsetHeight;
+        // this.camera.updateMatrixWorld();
+        // this.cssRenderer.setSize(window.innerWidth, window.innerHeight);
+        // this.cssRenderer.render(this.scene, this.camera);
     }
 
     private static createCssRenderer(container: HTMLElement): CSS3DRenderer {
@@ -88,8 +109,11 @@ export default class RenderScene {
     }
 
     private static createCamera(container: HTMLElement): PerspectiveCamera {
-        return new THREE.PerspectiveCamera(this.FOV, container.offsetWidth / container.offsetHeight,
+        const camera = new THREE.PerspectiveCamera(this.FOV, container.offsetWidth / container.offsetHeight,
             this.NEAR_CLIPPING, this.FAR_CLIPPING);
+        camera.position.z = this.CAMERA_START_Z;
+
+        return camera;
     }
 
     private static createControls(camera: Camera, cssRenderer: CSS3DRenderer): OrbitControls {
@@ -103,7 +127,6 @@ export default class RenderScene {
     }
 
     private static createStats(): Stats {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
         // @ts-ignore
         const stats = new Stats();
         stats.showPanel(this.FPS_COUNTER);
