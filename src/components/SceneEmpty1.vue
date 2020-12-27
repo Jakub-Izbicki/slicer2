@@ -24,7 +24,7 @@ export default class SceneEmpty1 extends Vue {
 
   private scene!: Scene;
 
-  // private css3dScene!: Scene;
+  // private css3dScene!: SceneContainer;
 
   private controls!: OrbitControls;
 
@@ -67,7 +67,7 @@ export default class SceneEmpty1 extends Vue {
     this.css3dRenderer = css3dRenderer;
     this.camera = camera;
     this.scene = scene;
-    // this.css3dScene = new THREE.Scene();
+    // this.css3dScene = new THREE.SceneContainer();
 
     cssSceneWindow.appendChild(css3dRenderer.domElement);
     webGlSceneWindow.appendChild(renderer.domElement);

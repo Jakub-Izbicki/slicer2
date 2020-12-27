@@ -19,6 +19,11 @@ const routes: Array<RouteConfig> = [
         path: '/scene2',
         name: 'Scene2',
         component: () => import('../views/Scene2.vue')
+    },
+    {
+        path: '/main',
+        name: 'Main',
+        component: () => import('../views/Main.vue')
     }
 ]
 
