@@ -28,8 +28,6 @@ export default class SceneContainer extends Vue {
 
     setTimeout(() => {
       this.renderScene.scene.add(this.createTestHtmlObject());
-
-      
     }, 100);
   }
 
