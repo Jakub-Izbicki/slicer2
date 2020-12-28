@@ -13,7 +13,9 @@ import {CSS3DObject} from "three/examples/jsm/renderers/CSS3DRenderer";
 @Component
 export default class SceneContainer extends Vue {
 
-  private static readonly SIZE = '100px';
+  private static readonly HEIGHT = '88px';
+
+  private static readonly WIDTH = '63px';
 
   private static readonly DIV_EL = "div";
 
@@ -31,16 +33,18 @@ export default class SceneContainer extends Vue {
     }, 100);
   }
 
-  private createTestHtmlObject(): CSS3DObject {
-    const element = document.createElement(SceneContainer.DIV_EL);
-    element.style.width = SceneContainer.SIZE;
-    element.style.height = SceneContainer.SIZE;
-    element.style.background = new THREE.Color(
-        Math.random() * 0.21568627451 + 0.462745098039,
-        Math.random() * 0.21568627451 + 0.462745098039,
-        Math.random() * 0.21568627451 + 0.462745098039
-    ).getStyle();
-    element.textContent = SceneContainer.MSG;
+  private createTestHtmlObject(x?: number, y?: number, z?: number): CSS3DObject {
+    // const element = document.createElement(SceneContainer.DIV_EL);
+    const element = document.createElement("img");
+    element.style.width = SceneContainer.WIDTH;
+    element.style.height = SceneContainer.HEIGHT;
+    // element.style.background = new THREE.Color(
+    //     Math.random() * 0.21568627451 + 0.462745098039,
+    //     Math.random() * 0.21568627451 + 0.462745098039,
+    //     Math.random() * 0.21568627451 + 0.462745098039
+    // ).getStyle();
+    element.src = "https://c1.scryfall.com/file/scryfall-cards/large/front/d/1/d1c9cde8-0124-476b-a807-b231b352678e.jpg?1605329010";
+    // element.textContent = SceneContainer.MSG;
 
     return new CSS3DObject(element);
   }
