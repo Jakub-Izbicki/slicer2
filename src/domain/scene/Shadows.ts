@@ -2,7 +2,7 @@ export default class Shadows {
 
     private static instance: Shadows;
 
-    private enabled = false;
+    private enabled = true;
 
     public static getInstance(): Shadows {
         if (!Shadows.instance) {
@@ -21,6 +21,6 @@ export default class Shadows {
     }
 
     public disable(): void {
-        this.enabled = true;
+        this.enabled = false;
     }
 }

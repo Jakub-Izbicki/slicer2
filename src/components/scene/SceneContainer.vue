@@ -18,10 +18,12 @@ export default class SceneContainer extends Vue {
     this.renderScene.start();
 
     setTimeout(() => {
+      this.renderScene.scene.add(ObjectFactory.createGround());
+
       const side = 1;
       [...new Array(side).keys()].forEach(i => {
         [...new Array(side).keys()].forEach(j => {
-          this.renderScene.scene.add(ObjectFactory.getTestCard(i * 100, j * -100, i));
+          this.renderScene.scene.add(ObjectFactory.createTestCard(i * 100, j * -100, i + 10));
         });
       });
     }, 100);

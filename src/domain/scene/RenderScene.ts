@@ -61,8 +61,9 @@ export default class RenderScene {
         this.container.appendChild(this.cssRenderer.domElement);
         this.container.appendChild(this.glRenderer.domElement);
         this.container.appendChild(this.stats.dom);
-
         this.scene.add(this.directionalLight);
+        // this.scene.add(RenderScene.createAmbientLight());
+        // this.scene.add(new THREE.CameraHelper(this.directionalLight.shadow.camera));
         // this.scene.add(new THREE.DirectionalLightHelper(this.directionalLight));
 
         this.addOnWindowResize();
@@ -141,20 +142,22 @@ export default class RenderScene {
     }
 
     private static createDirectionalLight(): DirectionalLight {
-        const light = new THREE.DirectionalLight(0xdedede, 0.5);
-        light.position.set(0, 0, 200);
+        const light = new THREE.DirectionalLight(0xdedede, 1);
+        const cameraRange = 500;
+
+        light.position.set(0, 0, 300);
 
         if (Shadows.getInstance().areEnabled()) {
             light.shadow.bias = -0.001;
-            light.castShadow = true;
-            // light.position.multiplyScalar(1.3);
-            // light.shadow.mapSize.width = 2048;
-            // light.shadow.mapSize.height = 2048;
-            // light.shadow.camera.left = -1000;
-            // light.shadow.camera.right = 1000;
-            // light.shadow.camera.top = 1000;
-            // light.shadow.camera.bottom = -1000;
-            // light.shadow.camera.far = 1000;
+            light.castShadow = Shadows.getInstance().areEnabled();
+            light.position.multiplyScalar(1.3);
+            light.shadow.mapSize.width = 2048;
+            light.shadow.mapSize.height = 2048;
+            light.shadow.camera.left = -cameraRange;
+            light.shadow.camera.right = cameraRange;
+            light.shadow.camera.top = cameraRange;
+            light.shadow.camera.bottom = -cameraRange;
+            light.shadow.camera.far = cameraRange;
         }
 
         return light;
@@ -173,7 +176,7 @@ export default class RenderScene {
         controls.screenSpacePanning = false;
         controls.maxDistance = this.MAX_ZOOM_OUT;
         controls.minDistance = this.MAX_ZOOM_IN;
-        controls.maxPolarAngle = this.POLAR_ANGLE;
+        // controls.maxPolarAngle = this.POLAR_ANGLE;
 
         return controls;
     }

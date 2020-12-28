@@ -1,6 +1,7 @@
-import {Color, Object3D} from "three";
+import {Color, Mesh, Object3D} from "three";
 import {CSS3DObject} from "three/examples/jsm/renderers/CSS3DRenderer";
 import * as THREE from "three";
+import Shadows from "@/domain/scene/Shadows";
 
 export default class ObjectFactory {
 
@@ -16,14 +17,31 @@ export default class ObjectFactory {
 
     private static readonly IMG_SRC = "https://c1.scryfall.com/file/scryfall-cards/large/front/d/1/d1c9cde8-0124-476b-a807-b231b352678e.jpg?1605329010";
 
-    private static readonly OPACITY = 0.01;
+    private static readonly OPACITY = 0.1;
 
-    public static getTestCard(x?: number, y?: number, z?: number): Object3D {
+    private static readonly GROUND_SIZE = 2000;
+
+    public static createTestCard(x?: number, y?: number, z?: number): Object3D {
         const root = new THREE.Object3D();
         root.add(this.createCssImg(x, y, z));
         root.add(this.createPlane(x, y, z));
 
         return root;
+    }
+
+    public static createGround() {
+        const groundMesh = new THREE.Mesh(
+            new THREE.PlaneBufferGeometry(ObjectFactory.GROUND_SIZE, ObjectFactory.GROUND_SIZE),
+            new THREE.MeshPhongMaterial({
+                color: 0xafafff,
+                flatShading: true,
+                blending: THREE.NoBlending,
+                side: THREE.DoubleSide
+            })
+        );
+        groundMesh.receiveShadow = Shadows.getInstance().areEnabled();
+
+        return groundMesh;
     }
 
     private static createCssImg(x?: number, y?: number, z?: number) {
@@ -48,8 +66,8 @@ export default class ObjectFactory {
         });
         const geometry = new THREE.BoxGeometry(ObjectFactory.WIDTH, ObjectFactory.HEIGHT, ObjectFactory.DEPTH);
         const planeObject = new THREE.Mesh(geometry, material);
-        planeObject.castShadow = true;
-        planeObject.receiveShadow = true;
+        planeObject.castShadow = Shadows.getInstance().areEnabled();
+        planeObject.receiveShadow = Shadows.getInstance().areEnabled();
         planeObject.position.x = x ? x : 0;
         planeObject.position.y = y ? y : 0;
         planeObject.position.z = z ? z : 0;
