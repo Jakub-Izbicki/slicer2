@@ -9,7 +9,7 @@ export default class ObjectFactory {
 
     private static readonly WIDTH = 63;
 
-    private static readonly DEPTH = 1;
+    private static readonly DEPTH = 0.1;
 
     private static readonly PX = "px";
 
@@ -36,7 +36,8 @@ export default class ObjectFactory {
                 color: 0xafafff,
                 flatShading: true,
                 blending: THREE.NoBlending,
-                side: THREE.DoubleSide
+                side: THREE.DoubleSide,
+                shininess: 0
             })
         );
         groundMesh.receiveShadow = Shadows.getInstance().areEnabled();
@@ -62,7 +63,8 @@ export default class ObjectFactory {
             opacity: ObjectFactory.OPACITY,
             color: new Color(0x111111),
             blending: THREE.NoBlending,
-            side: THREE.DoubleSide
+            side: THREE.DoubleSide,
+            shininess: 0
         });
         const geometry = new THREE.BoxGeometry(ObjectFactory.WIDTH, ObjectFactory.HEIGHT, ObjectFactory.DEPTH);
         const planeObject = new THREE.Mesh(geometry, material);
