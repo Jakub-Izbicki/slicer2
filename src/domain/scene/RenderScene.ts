@@ -2,7 +2,7 @@ import * as THREE from "three";
 import {CSS3DRenderer} from "three/examples/jsm/renderers/CSS3DRenderer";
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import Stats from "three/examples/jsm/libs/stats.module";
-import {Camera, PerspectiveCamera, Scene} from "three";
+import {Camera, PerspectiveCamera, Scene, WebGLRenderer} from "three";
 
 export default class RenderScene {
 
@@ -31,6 +31,7 @@ export default class RenderScene {
     private destroyed = false;
 
     constructor(readonly cssRenderer: CSS3DRenderer,
+                readonly glRenderer: WebGLRenderer,
                 readonly scene: THREE.Scene,
                 readonly camera: Camera,
                 readonly controls: OrbitControls,
@@ -40,12 +41,13 @@ export default class RenderScene {
 
     public static newScene(container: HTMLElement): RenderScene {
         const css3DRenderer = this.createCssRenderer(container);
+        const glRenderer = this.createWebGlRenderer(container);
         const scene = this.createScene();
         const camera = this.createCamera(container);
         const controls = this.createControls(camera, css3DRenderer);
         const stats = this.createStats();
 
-        return new RenderScene(css3DRenderer, scene, camera, controls, stats, container);
+        return new RenderScene(css3DRenderer, glRenderer, scene, camera, controls, stats, container);
     }
 
     public start(): void {
@@ -53,6 +55,7 @@ export default class RenderScene {
             throw this.START_ERROR;
         }
 
+        this.container.appendChild(this.glRenderer.domElement);
         this.container.appendChild(this.cssRenderer.domElement);
         this.container.appendChild(this.stats.dom);
         this.addOnWindowResize();
@@ -75,6 +78,7 @@ export default class RenderScene {
 
             this.stats.begin();
             this.cssRenderer.render(this.scene, this.camera);
+            this.glRenderer.render(this.scene, this.camera);
             this.stats.end();
         }
 
@@ -102,6 +106,22 @@ export default class RenderScene {
         css3dRenderer.domElement.style.top = this.TOP_0;
 
         return css3dRenderer;
+    }
+
+    private static createWebGlRenderer(container: HTMLElement): WebGLRenderer {
+        const glRenderer: WebGLRenderer = new THREE.WebGLRenderer({
+            alpha: true,
+            antialias: true
+        });
+        glRenderer.setSize(container.offsetWidth, container.offsetHeight);
+        glRenderer.domElement.style.position = this.ABSOLUTE;
+        glRenderer.domElement.style.top = this.TOP_0;
+        // glRenderer.setClearColor(0x000000, 0);
+
+        // glRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        // glRenderer.shadowMap.enabled = true;
+
+        return glRenderer;
     }
 
     private static createScene(): Scene {
