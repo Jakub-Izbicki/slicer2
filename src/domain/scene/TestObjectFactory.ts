@@ -19,6 +19,14 @@ export default class TestObjectFactory {
     private static readonly OPACITY = 0.1;
 
     public static getTestCard(x?: number, y?: number, z?: number): Object3D {
+        const root = new THREE.Object3D();
+        root.add(this.createCssImg(x, y, z));
+        root.add(this.createPlane(x, y, z));
+
+        return root;
+    }
+
+    private static createCssImg(x?: number, y?: number, z?: number) {
         const img = document.createElement(TestObjectFactory.IMG_EL);
         img.style.width = TestObjectFactory.WIDTH + TestObjectFactory.PX;
         img.style.height = TestObjectFactory.HEIGHT + TestObjectFactory.PX;
@@ -28,7 +36,10 @@ export default class TestObjectFactory {
         css3DObject.position.x = x ? x : 0;
         css3DObject.position.y = y ? y : 0;
         css3DObject.position.z = z ? z : 0;
+        return css3DObject;
+    }
 
+    private static createPlane(x?: number, y?: number, z?: number) {
         const material = new THREE.MeshPhongMaterial({
             opacity: TestObjectFactory.OPACITY,
             // color: new THREE.Color(0x111111),
@@ -42,11 +53,6 @@ export default class TestObjectFactory {
         planeObject.position.x = x ? x : 0;
         planeObject.position.y = y ? y : 0;
         planeObject.position.z = z ? z : 0;
-
-        const parentObject = new THREE.Object3D();
-        parentObject.add(css3DObject);
-        parentObject.add(planeObject);
-
-        return parentObject;
+        return planeObject;
     }
 }
