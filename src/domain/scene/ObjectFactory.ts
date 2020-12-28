@@ -2,7 +2,7 @@ import {Color, Object3D} from "three";
 import {CSS3DObject} from "three/examples/jsm/renderers/CSS3DRenderer";
 import * as THREE from "three";
 
-export default class TestObjectFactory {
+export default class ObjectFactory {
 
     private static readonly HEIGHT = 88;
 
@@ -27,10 +27,10 @@ export default class TestObjectFactory {
     }
 
     private static createCssImg(x?: number, y?: number, z?: number) {
-        const img = document.createElement(TestObjectFactory.IMG_EL);
-        img.style.width = TestObjectFactory.WIDTH + TestObjectFactory.PX;
-        img.style.height = TestObjectFactory.HEIGHT + TestObjectFactory.PX;
-        img.src = TestObjectFactory.IMG_SRC;
+        const img = document.createElement(ObjectFactory.IMG_EL);
+        img.style.width = ObjectFactory.WIDTH + ObjectFactory.PX;
+        img.style.height = ObjectFactory.HEIGHT + ObjectFactory.PX;
+        img.src = ObjectFactory.IMG_SRC;
 
         const css3DObject = new CSS3DObject(img);
         css3DObject.position.x = x ? x : 0;
@@ -41,12 +41,12 @@ export default class TestObjectFactory {
 
     private static createPlane(x?: number, y?: number, z?: number) {
         const material = new THREE.MeshPhongMaterial({
-            opacity: TestObjectFactory.OPACITY,
+            opacity: ObjectFactory.OPACITY,
             color: new Color(0x111111),
             blending: THREE.NoBlending,
             side: THREE.DoubleSide
         });
-        const geometry = new THREE.BoxGeometry(TestObjectFactory.WIDTH, TestObjectFactory.HEIGHT, TestObjectFactory.DEPTH);
+        const geometry = new THREE.BoxGeometry(ObjectFactory.WIDTH, ObjectFactory.HEIGHT, ObjectFactory.DEPTH);
         const planeObject = new THREE.Mesh(geometry, material);
         planeObject.castShadow = true;
         planeObject.receiveShadow = true;

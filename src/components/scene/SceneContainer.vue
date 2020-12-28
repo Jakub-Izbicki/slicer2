@@ -5,7 +5,7 @@
 <script lang="ts">
 import {Component, Vue} from "vue-property-decorator"
 import RenderScene from "@/domain/scene/RenderScene";
-import TestObjectFactory from "@/domain/scene/TestObjectFactory";
+import ObjectFactory from "@/domain/scene/ObjectFactory";
 
 @Component
 export default class SceneContainer extends Vue {
@@ -21,7 +21,7 @@ export default class SceneContainer extends Vue {
       const side = 1;
       [...new Array(side).keys()].forEach(i => {
         [...new Array(side).keys()].forEach(j => {
-          this.renderScene.scene.add(TestObjectFactory.getTestCard(i * 100, j * -100, i));
+          this.renderScene.scene.add(ObjectFactory.getTestCard(i * 100, j * -100, i));
         });
       });
     }, 100);
