@@ -41,4 +41,10 @@ body,
   height: 100%;
   overflow: hidden;
 }
+
+.cardComponent {
+  height: 88px;
+  width: 63px;
+  border-radius: 0.17rem;
+}
 </style>

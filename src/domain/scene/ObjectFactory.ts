@@ -1,7 +1,9 @@
-import {Color, Mesh, Object3D} from "three";
+import {Color, Object3D} from "three";
 import {CSS3DObject} from "three/examples/jsm/renderers/CSS3DRenderer";
 import * as THREE from "three";
 import Shadows from "@/domain/scene/Shadows";
+import {Vue} from "vue-property-decorator";
+import CardComponent from "@/components/card/CardComponent.vue";
 
 export default class ObjectFactory {
 
@@ -46,12 +48,10 @@ export default class ObjectFactory {
     }
 
     private static createCssImg(x?: number, y?: number, z?: number) {
-        const img = document.createElement(ObjectFactory.IMG_EL);
-        img.style.width = ObjectFactory.WIDTH + ObjectFactory.PX;
-        img.style.height = ObjectFactory.HEIGHT + ObjectFactory.PX;
-        img.src = ObjectFactory.IMG_SRC;
+        const cardComponent = new (Vue.extend(CardComponent))({propsData: {src: ObjectFactory.IMG_SRC}});
+        cardComponent.$mount();
 
-        const css3DObject = new CSS3DObject(img);
+        const css3DObject = new CSS3DObject(cardComponent.$el as HTMLElement);
         css3DObject.position.x = x ? x : 0;
         css3DObject.position.y = y ? y : 0;
         css3DObject.position.z = z ? z : 0;
