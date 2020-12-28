@@ -1,4 +1,4 @@
-import {Object3D} from "three";
+import {Color, Object3D} from "three";
 import {CSS3DObject} from "three/examples/jsm/renderers/CSS3DRenderer";
 import * as THREE from "three";
 
@@ -16,7 +16,7 @@ export default class TestObjectFactory {
 
     private static readonly IMG_SRC = "https://c1.scryfall.com/file/scryfall-cards/large/front/d/1/d1c9cde8-0124-476b-a807-b231b352678e.jpg?1605329010";
 
-    private static readonly OPACITY = 0.1;
+    private static readonly OPACITY = 0.01;
 
     public static getTestCard(x?: number, y?: number, z?: number): Object3D {
         const root = new THREE.Object3D();
@@ -42,7 +42,7 @@ export default class TestObjectFactory {
     private static createPlane(x?: number, y?: number, z?: number) {
         const material = new THREE.MeshPhongMaterial({
             opacity: TestObjectFactory.OPACITY,
-            // color: new THREE.Color(0x111111),
+            color: new Color(0x111111),
             blending: THREE.NoBlending,
             side: THREE.DoubleSide
         });

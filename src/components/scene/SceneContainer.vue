@@ -1,7 +1,5 @@
 <template>
-  <div class="h-full w-full relative"
-       ref="sceneContainer">
-  </div>
+  <div class="h-full w-full relative" ref="sceneContainer"></div>
 </template>
 
 <script lang="ts">

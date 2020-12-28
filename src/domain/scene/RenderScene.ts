@@ -2,7 +2,7 @@ import * as THREE from "three";
 import {CSS3DRenderer} from "three/examples/jsm/renderers/CSS3DRenderer";
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import Stats from "three/examples/jsm/libs/stats.module";
-import {Camera, PerspectiveCamera, Scene, WebGLRenderer} from "three";
+import {AmbientLight, Camera, DirectionalLight, PerspectiveCamera, Renderer, Scene, WebGLRenderer} from "three";
 
 export default class RenderScene {
 
@@ -33,6 +33,7 @@ export default class RenderScene {
     constructor(readonly cssRenderer: CSS3DRenderer,
                 readonly glRenderer: WebGLRenderer,
                 readonly scene: THREE.Scene,
+                readonly directionalLight: DirectionalLight,
                 readonly camera: Camera,
                 readonly controls: OrbitControls,
                 readonly stats: Stats,
@@ -43,11 +44,12 @@ export default class RenderScene {
         const css3DRenderer = this.createCssRenderer(container);
         const glRenderer = this.createWebGlRenderer(container);
         const scene = this.createScene();
+        const directionalLight = this.createDirectionalLight();
         const camera = this.createCamera(container);
-        const controls = this.createControls(camera, css3DRenderer);
+        const controls = this.createControls(camera, glRenderer);
         const stats = this.createStats();
 
-        return new RenderScene(css3DRenderer, glRenderer, scene, camera, controls, stats, container);
+        return new RenderScene(css3DRenderer, glRenderer, scene, directionalLight, camera, controls, stats, container);
     }
 
     public start(): void {
@@ -55,9 +57,13 @@ export default class RenderScene {
             throw this.START_ERROR;
         }
 
-        this.container.appendChild(this.glRenderer.domElement);
         this.container.appendChild(this.cssRenderer.domElement);
+        this.container.appendChild(this.glRenderer.domElement);
         this.container.appendChild(this.stats.dom);
+
+        this.scene.add(this.directionalLight);
+        // this.scene.add(new THREE.DirectionalLightHelper(this.directionalLight));
+
         this.addOnWindowResize();
         this.animate();
     }
@@ -77,8 +83,8 @@ export default class RenderScene {
             requestAnimationFrame(doAnimate);
 
             this.stats.begin();
-            this.cssRenderer.render(this.scene, this.camera);
             this.glRenderer.render(this.scene, this.camera);
+            this.cssRenderer.render(this.scene, this.camera);
             this.stats.end();
         }
 
@@ -116,16 +122,35 @@ export default class RenderScene {
         glRenderer.setSize(container.offsetWidth, container.offsetHeight);
         glRenderer.domElement.style.position = this.ABSOLUTE;
         glRenderer.domElement.style.top = this.TOP_0;
-        // glRenderer.setClearColor(0x000000, 0);
-
-        // glRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
-        // glRenderer.shadowMap.enabled = true;
+        glRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        glRenderer.shadowMap.enabled = true;
 
         return glRenderer;
     }
 
     private static createScene(): Scene {
         return new THREE.Scene();
+    }
+
+    private static createAmbientLight(): AmbientLight {
+        return new THREE.AmbientLight(0x666666);
+    }
+
+    private static createDirectionalLight(): DirectionalLight {
+        const light = new THREE.DirectionalLight(0xdedede, 0.5);
+        light.position.set(0, 0, 200);
+        light.shadow.bias = -0.001;
+        light.castShadow = true;
+        // light.position.multiplyScalar(1.3);
+        // light.shadow.mapSize.width = 2048;
+        // light.shadow.mapSize.height = 2048;
+        // light.shadow.camera.left = -1000;
+        // light.shadow.camera.right = 1000;
+        // light.shadow.camera.top = 1000;
+        // light.shadow.camera.bottom = -1000;
+        // light.shadow.camera.far = 1000;
+
+        return light;
     }
 
     private static createCamera(container: HTMLElement): PerspectiveCamera {
@@ -136,8 +161,8 @@ export default class RenderScene {
         return camera;
     }
 
-    private static createControls(camera: Camera, cssRenderer: CSS3DRenderer): OrbitControls {
-        const controls = new OrbitControls(camera, cssRenderer.domElement);
+    private static createControls(camera: Camera, renderer: Renderer): OrbitControls {
+        const controls = new OrbitControls(camera, renderer.domElement);
         controls.screenSpacePanning = false;
         controls.maxDistance = this.MAX_ZOOM_OUT;
         controls.minDistance = this.MAX_ZOOM_IN;
