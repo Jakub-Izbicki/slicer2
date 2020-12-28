@@ -29,7 +29,12 @@ export default class SceneContainer extends Vue {
     this.renderScene.start();
 
     setTimeout(() => {
-      this.renderScene.scene.add(this.createTestHtmlObject());
+      const side = 1;
+      [...new Array(side).keys()].forEach(i => {
+        [...new Array(side).keys()].forEach(j => {
+          this.renderScene.scene.add(this.createTestHtmlObject(i * 100, j * -100, i));
+        });
+      });
     }, 100);
   }
 
@@ -46,7 +51,12 @@ export default class SceneContainer extends Vue {
     element.src = "https://c1.scryfall.com/file/scryfall-cards/large/front/d/1/d1c9cde8-0124-476b-a807-b231b352678e.jpg?1605329010";
     // element.textContent = SceneContainer.MSG;
 
-    return new CSS3DObject(element);
+    const object = new CSS3DObject(element);
+    object.position.x = x ? x : 0;
+    object.position.y = y ? y : 0;
+    object.position.z = z ? z : 0;
+
+    return object;
   }
 }
 </script>
