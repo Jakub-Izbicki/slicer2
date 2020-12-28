@@ -3,6 +3,7 @@ import {CSS3DRenderer} from "three/examples/jsm/renderers/CSS3DRenderer";
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import Stats from "three/examples/jsm/libs/stats.module";
 import {AmbientLight, Camera, DirectionalLight, PerspectiveCamera, Renderer, Scene, WebGLRenderer} from "three";
+import Shadows from "@/domain/scene/Shadows";
 
 export default class RenderScene {
 
@@ -122,8 +123,11 @@ export default class RenderScene {
         glRenderer.setSize(container.offsetWidth, container.offsetHeight);
         glRenderer.domElement.style.position = this.ABSOLUTE;
         glRenderer.domElement.style.top = this.TOP_0;
-        glRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
-        glRenderer.shadowMap.enabled = true;
+
+        if (Shadows.getInstance().areEnabled()) {
+            glRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            glRenderer.shadowMap.enabled = true;
+        }
 
         return glRenderer;
     }
@@ -139,16 +143,19 @@ export default class RenderScene {
     private static createDirectionalLight(): DirectionalLight {
         const light = new THREE.DirectionalLight(0xdedede, 0.5);
         light.position.set(0, 0, 200);
-        light.shadow.bias = -0.001;
-        light.castShadow = true;
-        // light.position.multiplyScalar(1.3);
-        // light.shadow.mapSize.width = 2048;
-        // light.shadow.mapSize.height = 2048;
-        // light.shadow.camera.left = -1000;
-        // light.shadow.camera.right = 1000;
-        // light.shadow.camera.top = 1000;
-        // light.shadow.camera.bottom = -1000;
-        // light.shadow.camera.far = 1000;
+
+        if (Shadows.getInstance().areEnabled()) {
+            light.shadow.bias = -0.001;
+            light.castShadow = true;
+            // light.position.multiplyScalar(1.3);
+            // light.shadow.mapSize.width = 2048;
+            // light.shadow.mapSize.height = 2048;
+            // light.shadow.camera.left = -1000;
+            // light.shadow.camera.right = 1000;
+            // light.shadow.camera.top = 1000;
+            // light.shadow.camera.bottom = -1000;
+            // light.shadow.camera.far = 1000;
+        }
 
         return light;
     }
