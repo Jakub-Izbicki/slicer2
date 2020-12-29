@@ -95,16 +95,18 @@ export default class RenderScene {
 
     private addOnWindowResize(): void {
         // todo: add event handle so it can be removed when destroying scene later?
-        window.addEventListener('resize', this.onWindowResize, false);
+        window.addEventListener('resize', () => this.onWindowResize(), false);
     }
 
     // todo: implement
     private onWindowResize(): void {
         // @ts-ignore
-        // this.camera.aspect = this.container.offsetWidth / this.container.offsetHeight;
-        // this.camera.updateMatrixWorld();
-        // this.cssRenderer.setSize(window.innerWidth, window.innerHeight);
-        // this.cssRenderer.render(this.scene, this.camera);
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        // @ts-ignore
+        this.camera.updateProjectionMatrix();
+
+        this.glRenderer.setSize(window.innerWidth, window.innerHeight);
+        this.cssRenderer.setSize(window.innerWidth, window.innerHeight);
     }
 
     private static createCssRenderer(container: HTMLElement): CSS3DRenderer {
