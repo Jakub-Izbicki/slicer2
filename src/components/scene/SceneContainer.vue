@@ -23,7 +23,7 @@ export default class SceneContainer extends Vue {
       const side = 1;
       [...new Array(side).keys()].forEach(i => {
         [...new Array(side).keys()].forEach(j => {
-          this.renderScene.scene.add(ObjectFactory.createTestCard(i * 100, j * -100, i + 1));
+          this.renderScene.scene.add(ObjectFactory.createTestCard(i * 45, j * -60, i + j * 1.5 + 1));
         });
       });
     }, 100);

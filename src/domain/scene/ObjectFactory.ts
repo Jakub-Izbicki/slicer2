@@ -19,6 +19,8 @@ export default class ObjectFactory {
 
     private static readonly GROUND_SIZE = 2000;
 
+    private static readonly SHININESS = 0;
+
     public static createTestCard(x?: number, y?: number, z?: number): Object3D {
         const root = new THREE.Object3D();
         root.add(this.createCssImg(x, y, z));
@@ -35,7 +37,7 @@ export default class ObjectFactory {
                 flatShading: true,
                 blending: THREE.NoBlending,
                 side: THREE.DoubleSide,
-                shininess: 0
+                shininess: ObjectFactory.SHININESS
             })
         );
         groundMesh.receiveShadow = Shadows.getInstance().areEnabled();
@@ -60,7 +62,7 @@ export default class ObjectFactory {
             color: new Color(0x111111),
             blending: THREE.NoBlending,
             side: THREE.DoubleSide,
-            shininess: 0
+            shininess: ObjectFactory.SHININESS
         });
         const geometry = new THREE.BoxGeometry(ObjectFactory.WIDTH, ObjectFactory.HEIGHT, ObjectFactory.DEPTH);
         const planeObject = new THREE.Mesh(geometry, material);

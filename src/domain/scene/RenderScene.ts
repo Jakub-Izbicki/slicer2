@@ -47,7 +47,7 @@ export default class RenderScene {
         const scene = this.createScene();
         const directionalLight = this.createDirectionalLight();
         const camera = this.createCamera(container);
-        const controls = this.createControls(camera, css3DRenderer);
+        const controls = this.createControls(camera, glRenderer);
         const stats = this.createStats();
 
         return new RenderScene(css3DRenderer, glRenderer, scene, directionalLight, camera, controls, stats, container);
@@ -58,8 +58,8 @@ export default class RenderScene {
             throw this.START_ERROR;
         }
 
-        this.container.appendChild(this.glRenderer.domElement);
         this.container.appendChild(this.cssRenderer.domElement);
+        this.container.appendChild(this.glRenderer.domElement);
         this.container.appendChild(this.stats.dom);
         this.scene.add(this.directionalLight);
         // this.scene.add(RenderScene.createAmbientLight());
@@ -172,7 +172,7 @@ export default class RenderScene {
         return camera;
     }
 
-    private static createControls(camera: Camera, renderer: CSS3DRenderer): OrbitControls {
+    private static createControls(camera: Camera, renderer: Renderer): OrbitControls {
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.screenSpacePanning = false;
         // controls.screenSpacePanning = true;
