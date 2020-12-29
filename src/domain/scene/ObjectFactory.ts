@@ -11,11 +11,7 @@ export default class ObjectFactory {
 
     private static readonly WIDTH = 63;
 
-    private static readonly DEPTH = 0.1;
-
-    private static readonly PX = "px";
-
-    private static readonly IMG_EL = "img";
+    private static readonly DEPTH = 0.01;
 
     private static readonly IMG_SRC = "https://c1.scryfall.com/file/scryfall-cards/large/front/d/1/d1c9cde8-0124-476b-a807-b231b352678e.jpg?1605329010";
 
