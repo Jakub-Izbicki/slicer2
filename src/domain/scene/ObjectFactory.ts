@@ -11,6 +11,8 @@ export default class ObjectFactory {
 
     private static readonly WIDTH = 63;
 
+    private static readonly OFFSET = 0.5;
+
     private static readonly DEPTH = 0.01;
 
     private static readonly IMG_SRC = "https://c1.scryfall.com/file/scryfall-cards/large/front/d/1/d1c9cde8-0124-476b-a807-b231b352678e.jpg?1605329010";
@@ -59,12 +61,13 @@ export default class ObjectFactory {
     private static createPlane(x?: number, y?: number, z?: number) {
         const material = new THREE.MeshPhongMaterial({
             opacity: ObjectFactory.OPACITY,
-            color: new Color(0x111111),
+            color: 0x000000,
             blending: THREE.NoBlending,
             side: THREE.DoubleSide,
             shininess: ObjectFactory.SHININESS
         });
-        const geometry = new THREE.BoxGeometry(ObjectFactory.WIDTH, ObjectFactory.HEIGHT, ObjectFactory.DEPTH);
+        const geometry = new THREE.BoxGeometry(ObjectFactory.WIDTH - ObjectFactory.OFFSET,
+            ObjectFactory.HEIGHT - ObjectFactory.OFFSET, ObjectFactory.DEPTH);
         const planeObject = new THREE.Mesh(geometry, material);
         planeObject.castShadow = Shadows.getInstance().areEnabled();
         planeObject.receiveShadow = Shadows.getInstance().areEnabled();
