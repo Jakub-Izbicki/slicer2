@@ -142,7 +142,7 @@ export default class RenderScene {
     }
 
     private static createDirectionalLight(): DirectionalLight {
-        const light = new THREE.DirectionalLight(0xdedede, 1);
+        const light = new THREE.DirectionalLight(0xffffff, 1);
         const cameraRange = 500;
 
         light.position.set(0, 0, 300);

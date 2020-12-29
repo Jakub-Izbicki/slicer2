@@ -35,7 +35,7 @@ export default class ObjectFactory {
         const groundMesh = new THREE.Mesh(
             new THREE.PlaneBufferGeometry(ObjectFactory.GROUND_SIZE, ObjectFactory.GROUND_SIZE),
             new THREE.MeshPhongMaterial({
-                color: 0xafafff,
+                color: 0xffffff,
                 flatShading: true,
                 blending: THREE.NoBlending,
                 side: THREE.DoubleSide,
