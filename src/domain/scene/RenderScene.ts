@@ -150,9 +150,8 @@ export default class RenderScene {
         if (Shadows.getInstance().areEnabled()) {
             light.shadow.bias = -0.001;
             light.castShadow = Shadows.getInstance().areEnabled();
-            light.position.multiplyScalar(1.3);
-            light.shadow.mapSize.width = 2048;
-            light.shadow.mapSize.height = 2048;
+            light.shadow.mapSize.width = 1024;
+            light.shadow.mapSize.height = 1024;
             light.shadow.camera.left = -cameraRange;
             light.shadow.camera.right = cameraRange;
             light.shadow.camera.top = cameraRange;
