@@ -167,6 +167,7 @@ export default class RenderScene {
         const camera = new THREE.PerspectiveCamera(this.FOV, container.offsetWidth / container.offsetHeight,
             this.NEAR_CLIPPING, this.FAR_CLIPPING);
         camera.position.z = this.CAMERA_START_Z;
+        camera.up.set(0, 0, 1);
 
         return camera;
     }
@@ -174,6 +175,7 @@ export default class RenderScene {
     private static createControls(camera: Camera, renderer: Renderer): OrbitControls {
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.screenSpacePanning = false;
+        // controls.screenSpacePanning = true;
         controls.maxDistance = this.MAX_ZOOM_OUT;
         controls.minDistance = this.MAX_ZOOM_IN;
         // controls.maxPolarAngle = this.POLAR_ANGLE;
