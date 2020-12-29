@@ -46,5 +46,6 @@ body,
   height: 88px;
   width: 63px;
   border-radius: 0.17rem;
+  @apply hover:opacity-90
 }
 </style>
